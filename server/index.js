@@ -13,7 +13,12 @@ const io = new Server(server, {
     methods: ["GET", "POST"],
   },
 });
-
+io.on("connection", socket => {
+  console.log(`user is connected: ${socket.id}`);
+  socket.on("send_message", data => {
+    console.log(data);
+  });
+});
 app.listen(PORT, () => {
   console.log(`app is listening in ${PORT}`);
 });
