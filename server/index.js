@@ -15,9 +15,15 @@ const io = new Server(server, {
 });
 io.on("connection", socket => {
   console.log(`user is connected: ${socket.id}`);
+
+  socket.on("join_room", data => {
+    socket.join(data);
+  });
+
   socket.on("send_message", data => {
-    socket.broadcast.emit("recieve_message", data);
-    console.log(data);
+    // socket.broadcast.emit("recieve_message", data);
+    // console.log(data);
+    socket.to(data.room).emit("recieved_message", data);
   });
 });
 app.listen(PORT, () => {
